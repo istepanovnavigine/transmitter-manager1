@@ -5,9 +5,6 @@ const { postTransmitter } = require('./src/postTransmitter.js');
 const { Transmitter } = require('./src/transmitterCr.js');
 const { api_key, email, password, objGroup } = require('./src/envs.js');
 
-// Pass your data here
-
-
 
 const transmitter = new Transmitter(api_key, "My_object10", objGroup, "AA:BB:CC:DD:EE:FF", "Device 40");
 
