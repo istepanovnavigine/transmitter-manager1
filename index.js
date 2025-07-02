@@ -18,11 +18,7 @@ const { api_key, email, password, objGroup } = require('./src/envs.js');
                 data.push(row);
             })
             .on('end', async () => {
-                console.log('CSV успешно загружен');
-
                 const token = await getToken(email, password);
-
-                console.log(data);
 
                 data.forEach(async (transmitterData) => {
                     try {

@@ -15,7 +15,6 @@ async function postTransmitter(transmitter, token) {
         return response.data;
     } catch (err) {
         console.error('Post error:', err.response?.status, err.response?.data || err.message);
-        throw err;
     }
 }
 

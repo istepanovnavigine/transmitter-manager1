@@ -1,8 +1,9 @@
 const axios = require('axios');
+const { authDNS } = require('./envs.js');
 
 async function getToken(email, password) {
     try {
-        const response = await axios.post('https://ips.navigine.com/auth/login', {
+        const response = await axios.post(authDNS, {
             email,
             password
         }, {
@@ -19,7 +20,6 @@ async function getToken(email, password) {
 
     } catch(err) {
         console.error('GetToken Error: ', err.status);
-        throw err;
     }
 }
 
