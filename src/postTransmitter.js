@@ -1,8 +1,9 @@
 const axios = require('axios');
+const { domen } = require('./envs.js');
 
 async function postTransmitter(transmitter, token) {
     try {
-        const response = await axios.post('https://rtls.navigine.com/tracking/v1/tracked-objects/create', transmitter, {
+        const response = await axios.post(`https://${domen}/v1/tracked-objects/create`, transmitter, {
             headers: {
                 'Content-Type': 'application/json',
                 'User-Agent': 'IvanStepanov',
