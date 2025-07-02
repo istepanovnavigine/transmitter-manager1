@@ -1,5 +1,6 @@
-const ExcelJS = require('exceljs');
 const path = require('path');
+const csv = require('csv-parser');
+const fs = require('fs');
 const { getToken } = require('./src/getToken.js');
 const { postTransmitter } = require('./src/postTransmitter.js');
 const { Transmitter } = require('./src/transmitterCr.js');
@@ -8,30 +9,30 @@ const { api_key, email, password, objGroup } = require('./src/envs.js');
 
 (async () => {
     try {
-        const pathfile = path.join(__dirname, 'file.xlsx');
-
-        const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.readFile(pathfile);
-
-        const worksheet = workbook.getWorksheet(1); 
-
+        const pathfile = path.join(__dirname, 'file.csv');
         const data = [];
 
-        worksheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
-            data.push(row.values.slice(1)); 
-        });
+        fs.createReadStream(pathfile)
+            .pipe(csv())
+            .on('data', (row) => {
+                data.push(row);
+            })
+            .on('end', async () => {
+                console.log('CSV успешно загружен');
 
-        const token = await getToken(email, password);
+                const token = await getToken(email, password);
 
-        data.forEach(async (transmitterData) => {
-            try {
-                const transmitter = new Transmitter(api_key, transmitterData[0], objGroup, transmitterData[0], transmitterData[0]);
-                await postTransmitter(transmitter, token);
-            } catch(err) {
-                console.error(err.status);
-            }
-            
-        });
+                console.log(data);
+
+                data.forEach(async (transmitterData) => {
+                    try {
+                        const transmitter = new Transmitter(api_key, transmitterData.mac, objGroup, transmitterData.mac, transmitterData.mac);
+                        await postTransmitter(transmitter, token);
+                    } catch(err) {
+                        console.error(err.status);
+                    }
+                });
+            });
 
     } catch(err) {
         console.error(err.status);

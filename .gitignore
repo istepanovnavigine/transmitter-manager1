@@ -2,3 +2,4 @@ node_modules/
 file.xlsx
 package-lock.json
 src/envs.js
+file.csv
