@@ -23,12 +23,17 @@ const { api_key, email, password, objGroup } = require('./src/envs.js');
 
         const token = await getToken(email, password);
 
-        const transmitterData = data[0];
+        data.forEach(async (transmitterData) => {
+            try {
+                const transmitter = new Transmitter(api_key, transmitterData[0], objGroup, transmitterData[0], transmitterData[0]);
+                await postTransmitter(transmitter, token);
+            } catch(err) {
+                console.error(err.status);
+            }
+            
+        });
 
-        const transmitter = new Transmitter(api_key, transmitterData[0], objGroup, transmitterData[1], transmitterData[2]);
-
-        await postTransmitter(transmitter, token);
     } catch(err) {
-        console.error(err);
+        console.error(err.status);
     }
 })();

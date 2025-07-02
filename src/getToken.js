@@ -18,7 +18,7 @@ async function getToken(email, password) {
         return response.data.token;
 
     } catch(err) {
-        console.error('GetToken Error: ', err);
+        console.error('GetToken Error: ', err.status);
         throw err;
     }
 }
