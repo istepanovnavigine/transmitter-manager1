@@ -6,8 +6,6 @@ const { Transmitter } = require('./src/transmitterCr.js');
 const { api_key, email, password, objGroup } = require('./src/envs.js');
 
 
-const transmitter = new Transmitter(api_key, "My_object10", objGroup, "AA:BB:CC:DD:EE:FF", "Device 40");
-
 (async () => {
     try {
         const pathfile = path.join(__dirname, 'file.xlsx');
@@ -24,6 +22,10 @@ const transmitter = new Transmitter(api_key, "My_object10", objGroup, "AA:BB:CC:
         });
 
         const token = await getToken(email, password);
+
+        const transmitterData = data[0];
+
+        const transmitter = new Transmitter(api_key, transmitterData[0], objGroup, transmitterData[1], transmitterData[2]);
 
         await postTransmitter(transmitter, token);
     } catch(err) {
